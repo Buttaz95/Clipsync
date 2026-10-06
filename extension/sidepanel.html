@@ -30,6 +30,21 @@
     </form>
   </section>
 
+  <!-- Encryption passphrase -->
+  <section id="view-key" class="view centered" hidden>
+    <div class="lock-ico" aria-hidden="true">🔒</div>
+    <h1 id="key-title">Set an encryption passphrase</h1>
+    <p id="key-intro" class="muted"></p>
+    <form id="key-form" class="stack">
+      <input id="key-pass" type="password" placeholder="Passphrase" autocomplete="new-password" minlength="8" required />
+      <input id="key-pass2" type="password" placeholder="Type it again" autocomplete="new-password" />
+      <button type="submit" class="primary" id="key-submit">Turn on encryption</button>
+      <p id="key-error" class="error" role="alert"></p>
+    </form>
+    <p id="key-warn" class="warn small"></p>
+    <button id="btn-key-reset" class="linkish small" hidden>Forgot it? Reset encryption…</button>
+  </section>
+
   <!-- Chat -->
   <section id="view-chat" class="view chat" hidden>
     <header class="topbar">
@@ -45,6 +60,7 @@
     </header>
 
     <main id="messages" aria-live="polite"></main>
+    <div id="drop" class="drop" hidden><div>Drop files or folders to send<br/><span class="small">encrypted · up to 200 MB each</span></div></div>
 
     <footer class="composer" id="composer">
       <div id="resizer" class="resizer" role="separator" aria-orientation="horizontal" tabindex="0"
@@ -52,7 +68,11 @@
       <div class="composer-row">
         <label class="small muted" for="target">To</label>
         <select id="target"></select>
-        <button id="btn-paste" class="ghost small-btn" title="Send what's on your clipboard">📋 Paste &amp; send</button>
+        <button id="btn-paste" class="ghost small-btn" title="Send what's on your clipboard (text or image)">📋 Paste</button>
+        <button id="btn-attach" class="ghost small-btn" title="Send files">📎 Files</button>
+        <button id="btn-folder" class="ghost small-btn" title="Send a folder (zipped)">🗂 Folder</button>
+        <input id="file-input" type="file" multiple hidden />
+        <input id="folder-input" type="file" webkitdirectory multiple hidden />
       </div>
       <div class="composer-row input-row">
         <textarea id="input" rows="1" placeholder="Type a message… (Enter to send, Shift+Enter for new line)"></textarea>
@@ -69,6 +89,9 @@
         </label>
         <label class="check"><input id="set-autocopy" type="checkbox" /> Auto-copy text I receive</label>
         <label class="check"><input id="set-notify" type="checkbox" /> Show notifications</label>
+        <div class="enc-row"><strong>🔒 End-to-end encryption is on</strong>
+          <span class="muted small">Only your devices with the passphrase can read messages and files.</span>
+          <button id="btn-lock" class="ghost small-btn">Lock this PC (forget passphrase)</button></div>
         <h3>Your devices</h3>
         <ul id="device-list" class="device-list"></ul>
         <div class="row">
@@ -85,6 +108,8 @@
   <div id="toast" class="toast" hidden></div>
 
   <script src="lib/supabase.js"></script>
+  <script src="lib/fflate.js"></script>
+  <script src="lib/cs-core.js"></script>
   <script src="common.js"></script>
   <script src="sidepanel.js"></script>
 </body>

@@ -95,3 +95,36 @@ body.resizing, body.resizing * { cursor: ns-resize !important; user-select: none
 .device-list li button { padding: 2px 8px; font-size: 12px; }
 
 .toast { position: fixed; left: 50%; bottom: 120px; transform: translateX(-50%); background: var(--text); color: var(--bg); padding: 6px 14px; border-radius: 999px; font-size: 13px; z-index: 10; }
+
+/* ---------- v0.3: encryption + files ---------- */
+.composer-row:not(.input-row) { flex-wrap: wrap; }
+.lock-ico { font-size: 40px; }
+.warn { color: var(--danger); text-align: left; margin: 10px 0 0; }
+.linkish { background: none; border: none; color: var(--muted); text-decoration: underline; margin-top: 10px; }
+.view.centered p.muted { text-align: left; }
+.enc-row { display: flex; flex-direction: column; gap: 6px; padding: 10px; border: 1px solid var(--line); border-radius: 10px; }
+.enc-row .small-btn { align-self: flex-start; }
+
+.msg .content { display: flex; flex-direction: column; max-width: 100%; }
+.bubble.locked { background: var(--theirs); color: var(--muted); border: 1px dashed var(--line); font-style: italic; }
+.meta .acts { display: inline-flex; gap: 8px; align-items: center; }
+.meta .tag { font-size: 10px; border: 1px solid var(--line); border-radius: 999px; padding: 0 6px; }
+
+.file-card { background: var(--theirs); color: var(--theirs-text); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; width: 260px; max-width: 100%; }
+.mine .file-card { border-color: var(--mine); }
+.file-card .frow { display: flex; gap: 10px; align-items: center; padding: 8px 10px; }
+.file-card .ficon { font-size: 22px; flex: none; }
+.file-card .fmeta { min-width: 0; }
+.file-card .fname { font-weight: 600; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.file-card .preview:empty { display: none; }
+.file-card .preview img, .file-card .preview video { display: block; width: 100%; max-height: 320px; object-fit: contain; background: #000; cursor: zoom-in; }
+.file-card .preview > button { margin: 8px 10px 0; }
+.file-card .play { width: 100%; padding: 26px 0; border-radius: 0; background: #0b0d10; color: #fff; font-size: 15px; }
+.file-card.expired { opacity: .7; display: flex; gap: 10px; align-items: center; padding: 8px 10px; }
+.progress { height: 4px; background: var(--line); }
+.progress > div { height: 100%; width: 0; background: var(--accent); transition: width .2s; }
+.msg.pending.failed .file-card { border-color: var(--danger); }
+
+.drop { position: absolute; inset: 0; z-index: 4; display: flex; align-items: center; justify-content: center; text-align: center;
+  background: color-mix(in srgb, var(--accent) 18%, transparent); border: 3px dashed var(--accent); border-radius: 12px; margin: 6px;
+  font-weight: 600; font-size: 16px; color: var(--text); pointer-events: none; backdrop-filter: blur(2px); }

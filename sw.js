@@ -1,6 +1,7 @@
-// ClipSync service worker: offline app shell + push notifications.
-const CACHE = "clipsync-v1";
-const SHELL = ["./", "index.html", "app.css", "app.js", "lib/supabase.js", "manifest.webmanifest",
+// ClipSync service worker: offline app shell + push notifications (decrypted on the phone).
+importScripts("shared/cs-core.js");
+const CACHE = "clipsync-v2";
+const SHELL = ["./", "index.html", "app.css", "app.js", "lib/supabase.js", "shared/cs-core.js", "manifest.webmanifest",
   "icons/icon-192.png", "icons/apple-touch-icon.png"];
 let unread = 0;
 
@@ -28,13 +29,20 @@ self.addEventListener("push", (e) => {
   let d = {};
   try { d = e.data ? e.data.json() : {}; } catch { d = { title: "ClipSync", body: e.data?.text() }; }
   unread++;
-  e.waitUntil(Promise.all([
-    self.registration.showNotification(d.title || "ClipSync", {
-      body: d.body || "New item", icon: "icons/icon-192.png", badge: "icons/icon-192.png",
-      tag: d.id || undefined, data: { id: d.id },
-    }),
-    self.navigator?.setAppBadge?.(unread).catch(() => {}),
-  ]));
+  e.waitUntil((async () => {
+    let body = d.body || "New item";
+    // End-to-end encrypted preview: only this phone's key can open it
+    if (d.enc) {
+      try { const key = await CS.loadKey(); if (key) body = await CS.decText(key, d.enc); else body = "🔒 " + body; }
+      catch { body = "🔒 " + body; }
+    }
+    await Promise.all([
+      self.registration.showNotification(d.title || "ClipSync", {
+        body, icon: "icons/icon-192.png", badge: "icons/icon-192.png", tag: d.id || undefined, data: { id: d.id },
+      }),
+      self.navigator?.setAppBadge?.(unread).catch(() => {}),
+    ]);
+  })());
 });
 
 self.addEventListener("notificationclick", (e) => {
@@ -52,5 +60,6 @@ self.addEventListener("notificationclick", (e) => {
 });
 
 self.addEventListener("message", (e) => {
+  if (e.data?.type === "key-changed") CS.resetCache();
   if (e.data?.type === "clear-badge") { unread = 0; self.navigator?.clearAppBadge?.().catch(() => {}); }
 });

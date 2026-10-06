@@ -1,17 +1,45 @@
 {
   "manifest_version": 3,
   "name": "ClipSync",
-  "version": "0.2.1",
-  "description": "Chat-style clipboard between your PCs and iPhone.",
-  "icons": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png", "128": "icons/icon128.png" },
-  "action": { "default_title": "Open ClipSync", "default_icon": { "16": "icons/icon16.png", "32": "icons/icon32.png" } },
-  "side_panel": { "default_path": "sidepanel.html" },
-  "background": { "service_worker": "background.js" },
-  "permissions": ["sidePanel", "storage", "contextMenus", "notifications", "offscreen", "clipboardWrite", "clipboardRead", "alarms"],
-  "host_permissions": ["https://aaxtchjpfiawlybsaqmi.supabase.co/*"],
+  "version": "0.3.0",
+  "description": "End-to-end encrypted clipboard, files and folders between your PCs and iPhone.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "Open ClipSync",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "sidePanel",
+    "storage",
+    "contextMenus",
+    "notifications",
+    "offscreen",
+    "clipboardWrite",
+    "clipboardRead",
+    "alarms"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
   "commands": {
     "_execute_action": {
-      "suggested_key": { "default": "Ctrl+Shift+Y" },
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y"
+      },
       "description": "Open ClipSync"
     }
   }

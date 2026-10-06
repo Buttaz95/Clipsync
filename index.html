@@ -44,6 +44,21 @@
     </form>
   </section>
 
+  <!-- Encryption passphrase -->
+  <section id="view-key" class="view centered" hidden>
+    <div class="lock-ico" aria-hidden="true">🔒</div>
+    <h1 id="key-title">Enter your passphrase</h1>
+    <p id="key-intro" class="muted left"></p>
+    <form id="key-form" class="stack">
+      <input id="key-pass" type="password" placeholder="Passphrase" autocomplete="current-password" required />
+      <input id="key-pass2" type="password" placeholder="Type it again" autocomplete="new-password" />
+      <button type="submit" class="primary big" id="key-submit">Unlock</button>
+      <p id="key-error" class="error" role="alert"></p>
+    </form>
+    <p id="key-warn" class="warn small"></p>
+    <button id="btn-key-reset" class="linkish small" hidden>Forgot it? Reset encryption…</button>
+  </section>
+
   <!-- Chat -->
   <section id="view-chat" class="view chat" hidden>
     <header class="topbar">
@@ -68,7 +83,9 @@
       <div class="composer-row">
         <label class="small muted" for="target">To</label>
         <select id="target"></select>
-        <button id="btn-paste" class="ghost small-btn">📋 Paste &amp; send</button>
+        <button id="btn-paste" class="ghost small-btn">📋 Paste</button>
+        <button id="btn-attach" class="ghost small-btn" aria-label="Send photos, videos or files">📎 Files</button>
+        <input id="file-input" type="file" multiple hidden />
       </div>
       <div class="composer-row">
         <textarea id="input" rows="1" placeholder="Message" enterkeyhint="send"></textarea>
@@ -88,6 +105,9 @@
         <div><strong>Notifications</strong><div id="push-status" class="muted small"></div></div>
         <button id="btn-push" class="ghost small-btn">Turn on</button>
       </div>
+      <div class="enc-row"><strong>🔒 End-to-end encryption is on</strong>
+        <span class="muted small">Only your devices with the passphrase can read messages and files.</span>
+        <button id="btn-lock" class="ghost small-btn">Lock this iPhone (forget passphrase)</button></div>
       <h3>Your devices</h3>
       <ul id="device-list" class="device-list"></ul>
       <button id="btn-save-settings" class="primary big">Save</button>
@@ -100,6 +120,7 @@
   <div id="toast" class="toast" hidden></div>
 
   <script src="lib/supabase.js"></script>
+  <script src="shared/cs-core.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

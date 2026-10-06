@@ -86,3 +86,33 @@ button { font: inherit; cursor: pointer; border-radius: 12px; border: 1px solid 
 .device-list li { display: flex; justify-content: space-between; align-items: center; font-size: 15px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; }
 
 .toast { position: fixed; left: 50%; bottom: calc(130px + var(--sb)); transform: translateX(-50%); background: var(--text); color: var(--bg); padding: 7px 16px; border-radius: 999px; font-size: 14px; z-index: 10; }
+
+/* ---------- encryption + files ---------- */
+.composer-row:first-child { flex-wrap: nowrap; }
+.lock-ico { font-size: 44px; }
+.left { text-align: left; }
+.warn { color: var(--danger); text-align: left; margin: 12px 0 0; }
+.linkish { background: none; border: none; color: var(--muted); text-decoration: underline; margin-top: 12px; }
+.enc-row { display: flex; flex-direction: column; gap: 6px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; }
+.enc-row .small-btn { align-self: flex-start; }
+
+.msg .content { display: flex; flex-direction: column; max-width: 100%; }
+.bubble.locked { background: var(--theirs); color: var(--muted); border: 1px dashed var(--line); font-style: italic; }
+.meta .acts { display: inline-flex; align-items: center; flex-wrap: wrap; }
+
+.file-card { background: var(--theirs); color: var(--theirs-text); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; width: 270px; max-width: 100%; }
+.mine .file-card { border-color: var(--mine); }
+.file-card .frow { display: flex; gap: 10px; align-items: center; padding: 9px 12px; }
+.file-card .ficon { font-size: 24px; flex: none; }
+.file-card .fmeta { min-width: 0; }
+.file-card .fname { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.file-card .preview:empty { display: none; }
+.file-card .preview img, .file-card .preview video { display: block; width: 100%; max-height: 340px; object-fit: contain; background: #000; }
+.file-card .preview > button.small-btn { margin: 10px 12px 0; }
+.file-card .play { width: 100%; padding: 30px 0; border-radius: 0; background: #0b0d10; color: #fff; font-size: 16px; }
+.file-card.expired { opacity: .7; display: flex; gap: 10px; align-items: center; padding: 9px 12px; }
+.pad { padding: 10px 12px; }
+.progress { height: 4px; background: var(--line); }
+.progress > div { height: 100%; width: 0; background: var(--accent); transition: width .2s; }
+.msg.pending.failed .file-card { border-color: var(--danger); }
+.msg.flash .file-card { animation: flash 1.6s ease; }
