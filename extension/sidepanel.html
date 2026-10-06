@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>ClipSync</title>
+  <link rel="stylesheet" href="sidepanel.css" />
+</head>
+<body>
+  <!-- Sign in -->
+  <section id="view-login" class="view centered" hidden>
+    <img src="icons/icon128.png" alt="" class="logo" />
+    <h1>ClipSync</h1>
+    <p class="muted">Sign in with the account you created in Supabase.</p>
+    <form id="login-form" class="stack">
+      <input id="login-email" type="email" placeholder="Email" autocomplete="username" required />
+      <input id="login-password" type="password" placeholder="Password" autocomplete="current-password" required />
+      <button type="submit" class="primary">Sign in</button>
+      <p id="login-error" class="error" role="alert"></p>
+    </form>
+  </section>
+
+  <!-- Name this device -->
+  <section id="view-device" class="view centered" hidden>
+    <h1>Name this device</h1>
+    <p class="muted">This is how it shows up on your other devices.</p>
+    <form id="device-form" class="stack">
+      <input id="device-name" type="text" placeholder="e.g. Shop PC" maxlength="40" required />
+      <button type="submit" class="primary">Continue</button>
+      <p id="device-error" class="error" role="alert"></p>
+    </form>
+  </section>
+
+  <!-- Chat -->
+  <section id="view-chat" class="view chat" hidden>
+    <header class="topbar">
+      <div class="title">
+        <img src="icons/icon32.png" alt="" />
+        <div>
+          <strong>ClipSync</strong>
+          <span id="me-label" class="muted small"></span>
+        </div>
+      </div>
+      <span id="status-dot" class="dot" title="Connecting…"></span>
+      <button id="btn-settings" class="icon-btn" title="Settings" aria-label="Settings">⚙</button>
+    </header>
+
+    <main id="messages" aria-live="polite"></main>
+
+    <footer class="composer">
+      <div class="composer-row">
+        <label class="small muted" for="target">To</label>
+        <select id="target"></select>
+        <button id="btn-paste" class="ghost small-btn" title="Send what's on your clipboard">📋 Paste &amp; send</button>
+      </div>
+      <div class="composer-row">
+        <textarea id="input" rows="1" placeholder="Type a message… (Enter to send, Shift+Enter for new line)"></textarea>
+        <button id="btn-send" class="primary send" aria-label="Send">➤</button>
+      </div>
+    </footer>
+
+    <!-- Settings drawer -->
+    <div id="settings" class="drawer" hidden>
+      <div class="drawer-inner stack">
+        <h2>Settings</h2>
+        <label>This device's name
+          <input id="set-name" type="text" maxlength="40" />
+        </label>
+        <label class="check"><input id="set-autocopy" type="checkbox" /> Auto-copy text I receive</label>
+        <label class="check"><input id="set-notify" type="checkbox" /> Show notifications</label>
+        <h3>Your devices</h3>
+        <ul id="device-list" class="device-list"></ul>
+        <div class="row">
+          <button id="btn-save-settings" class="primary">Save</button>
+          <button id="btn-close-settings" class="ghost">Close</button>
+        </div>
+        <hr />
+        <button id="btn-clear" class="ghost danger">Delete all my messages</button>
+        <button id="btn-signout" class="ghost danger">Sign out</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="lib/supabase.js"></script>
+  <script src="common.js"></script>
+  <script src="sidepanel.js"></script>
+</body>
+</html>

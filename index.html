@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+  <title>ClipSync</title>
+  <meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0f1115" media="(prefers-color-scheme: dark)" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="ClipSync" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <link rel="icon" href="icons/favicon.png" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <!-- Sign in -->
+  <section id="view-login" class="view centered" hidden>
+    <img src="icons/icon-192.png" alt="" class="logo" />
+    <h1>ClipSync</h1>
+    <p class="muted">Sign in with your ClipSync account.</p>
+    <form id="login-form" class="stack">
+      <input id="login-email" type="email" placeholder="Email" autocomplete="username" required />
+      <input id="login-password" type="password" placeholder="Password" autocomplete="current-password" required />
+      <button type="submit" class="primary big">Sign in</button>
+      <p id="login-error" class="error" role="alert"></p>
+    </form>
+    <div id="install-hint" class="hint" hidden>
+      <strong>Install it first:</strong> tap <span class="share-ico">⬆︎</span> Share in Safari, then <b>Add to Home Screen</b>.
+      Open ClipSync from your home screen and sign in there. Notifications only work from the home-screen app.
+    </div>
+  </section>
+
+  <!-- Name this device -->
+  <section id="view-device" class="view centered" hidden>
+    <h1>Name this device</h1>
+    <p class="muted">This is how it shows up on your PCs.</p>
+    <form id="device-form" class="stack">
+      <input id="device-name" type="text" value="iPhone" maxlength="40" required />
+      <button type="submit" class="primary big">Continue</button>
+      <p id="device-error" class="error" role="alert"></p>
+    </form>
+  </section>
+
+  <!-- Chat -->
+  <section id="view-chat" class="view chat" hidden>
+    <header class="topbar">
+      <img src="icons/icon-192.png" alt="" class="mini-logo" />
+      <div class="title">
+        <strong>ClipSync</strong>
+        <span id="me-label" class="muted small"></span>
+      </div>
+      <span id="status-dot" class="dot" title="Connecting…"></span>
+      <button id="btn-settings" class="icon-btn" aria-label="Settings">⚙︎</button>
+    </header>
+
+    <div id="push-banner" class="banner" hidden>
+      <span>Get notified when your PC sends something.</span>
+      <button id="btn-push-banner" class="primary small-btn">Turn on</button>
+      <button id="btn-push-dismiss" class="icon-btn" aria-label="Dismiss">✕</button>
+    </div>
+
+    <main id="messages" aria-live="polite"></main>
+
+    <footer class="composer">
+      <div class="composer-row">
+        <label class="small muted" for="target">To</label>
+        <select id="target"></select>
+        <button id="btn-paste" class="ghost small-btn">📋 Paste &amp; send</button>
+      </div>
+      <div class="composer-row">
+        <textarea id="input" rows="1" placeholder="Message" enterkeyhint="send"></textarea>
+        <button id="btn-send" class="primary send" aria-label="Send">➤</button>
+      </div>
+    </footer>
+  </section>
+
+  <!-- Settings sheet -->
+  <div id="settings" class="sheet-wrap" hidden>
+    <div class="sheet stack">
+      <div class="sheet-head"><h2>Settings</h2><button id="btn-close-settings" class="ghost small-btn">Done</button></div>
+      <label>This device's name
+        <input id="set-name" type="text" maxlength="40" />
+      </label>
+      <div class="row-between">
+        <div><strong>Notifications</strong><div id="push-status" class="muted small"></div></div>
+        <button id="btn-push" class="ghost small-btn">Turn on</button>
+      </div>
+      <h3>Your devices</h3>
+      <ul id="device-list" class="device-list"></ul>
+      <button id="btn-save-settings" class="primary big">Save</button>
+      <hr />
+      <button id="btn-clear" class="ghost danger">Delete all my messages</button>
+      <button id="btn-signout" class="ghost danger">Sign out</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="lib/supabase.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
