@@ -91,6 +91,7 @@ async function loadDevices() {
 
 async function openChat() {
   show("chat");
+  setInputH(inputH);
   await loadDevices();
   sb.from("devices").update({ last_seen: new Date().toISOString() }).eq("id", settings.deviceId).then(() => {});
 
@@ -171,8 +172,49 @@ async function sendText(text) {
 
 // composer
 const input = $("input");
-function autosize() { input.style.height = "auto"; input.style.height = Math.min(input.scrollHeight, 160) + "px"; }
-input.addEventListener("input", autosize);
+function autosize() {} // the box keeps the size you dragged it to
+
+// ---------- resizable message box ----------
+// Drag the top edge of the composer: up = bigger box, down = smaller. The message list fills the rest.
+const INPUT_DEFAULT = 120, INPUT_MIN = 56;
+let inputH = INPUT_DEFAULT;
+function maxInputH() {
+  // leave room for the header, the To/Paste row and at least ~90px of messages
+  const other = document.querySelector(".topbar").offsetHeight + $("composer").offsetHeight - input.offsetHeight;
+  return Math.max(INPUT_MIN, window.innerHeight - other - 90);
+}
+function setInputH(h, save) {
+  inputH = Math.round(Math.min(Math.max(h, INPUT_MIN), maxInputH()));
+  document.documentElement.style.setProperty("--input-h", inputH + "px");
+  if (save) chrome.storage.local.set({ inputHeight: inputH });
+}
+chrome.storage.local.get("inputHeight").then((r) => setInputH(r.inputHeight || INPUT_DEFAULT));
+window.addEventListener("resize", () => setInputH(inputH));
+
+const resizer = $("resizer");
+resizer.addEventListener("pointerdown", (e) => {
+  e.preventDefault();
+  resizer.setPointerCapture(e.pointerId);
+  const startY = e.clientY, startH = input.offsetHeight;
+  const atBottom = () => { const m = $("messages"); return m.scrollHeight - m.scrollTop - m.clientHeight < 40; };
+  const stick = atBottom();
+  resizer.classList.add("dragging"); document.body.classList.add("resizing");
+  const move = (ev) => { setInputH(startH + (startY - ev.clientY)); if (stick) scrollToBottom(); };
+  const up = () => {
+    resizer.removeEventListener("pointermove", move);
+    resizer.classList.remove("dragging"); document.body.classList.remove("resizing");
+    setInputH(inputH, true);
+  };
+  resizer.addEventListener("pointermove", move);
+  resizer.addEventListener("pointerup", up, { once: true });
+  resizer.addEventListener("pointercancel", up, { once: true });
+});
+resizer.addEventListener("dblclick", () => setInputH(INPUT_DEFAULT, true));
+resizer.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+    e.preventDefault(); setInputH(inputH + (e.key === "ArrowUp" ? 20 : -20), true);
+  }
+});
 input.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); $("btn-send").click(); }
 });

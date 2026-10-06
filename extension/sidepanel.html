@@ -46,13 +46,15 @@
 
     <main id="messages" aria-live="polite"></main>
 
-    <footer class="composer">
+    <footer class="composer" id="composer">
+      <div id="resizer" class="resizer" role="separator" aria-orientation="horizontal" tabindex="0"
+           aria-label="Resize message box" title="Drag to resize · double-click to reset"></div>
       <div class="composer-row">
         <label class="small muted" for="target">To</label>
         <select id="target"></select>
         <button id="btn-paste" class="ghost small-btn" title="Send what's on your clipboard">📋 Paste &amp; send</button>
       </div>
-      <div class="composer-row">
+      <div class="composer-row input-row">
         <textarea id="input" rows="1" placeholder="Type a message… (Enter to send, Shift+Enter for new line)"></textarea>
         <button id="btn-send" class="primary send" aria-label="Send">➤</button>
       </div>

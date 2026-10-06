@@ -58,13 +58,32 @@ button { font: inherit; cursor: pointer; border-radius: 10px; border: 1px solid 
 .meta button { background: none; border: none; padding: 0; color: var(--muted); font-size: 11px; }
 .meta button:hover { color: var(--text); }
 
-.composer { background: var(--panel); border-top: 1px solid var(--line); padding: 8px 10px 10px; display: flex; flex-direction: column; gap: 6px; }
-.composer-row { display: flex; align-items: flex-end; gap: 8px; }
-.composer-row:first-child { align-items: center; }
-#target { width: auto; flex: 1; padding: 4px 8px; font-size: 12px; }
-.small-btn { padding: 4px 10px; font-size: 12px; white-space: nowrap; }
-#input { resize: none; max-height: 160px; }
-.send { padding: 9px 13px; }
+/* Composer: its top border is a drag handle. The message list takes whatever space is left. */
+.composer {
+  position: relative; flex: none; background: var(--panel); border-top: 1px solid var(--line);
+  padding: 10px 10px 10px; display: flex; flex-direction: column; gap: 8px;
+}
+.resizer {
+  position: absolute; top: -6px; left: 0; right: 0; height: 12px; cursor: ns-resize; z-index: 2;
+  display: flex; align-items: center; justify-content: center; touch-action: none; outline: none;
+}
+.resizer::before {
+  content: ""; width: 40px; height: 4px; border-radius: 999px; background: var(--line);
+  transition: background .15s, width .15s;
+}
+.resizer:hover::before, .resizer:focus-visible::before, .resizer.dragging::before { background: var(--accent); width: 64px; }
+body.resizing, body.resizing * { cursor: ns-resize !important; user-select: none !important; }
+
+.composer-row { display: flex; align-items: center; gap: 8px; }
+.composer-row.input-row { align-items: stretch; }
+#target { width: auto; flex: 1; min-width: 0; padding: 5px 8px; font-size: 12px; }
+.small-btn { padding: 5px 10px; font-size: 12px; white-space: nowrap; }
+#input {
+  resize: none; height: var(--input-h, 120px); min-height: 0; flex: 1;
+  font-size: 14px; line-height: 1.5; padding: 10px 12px;
+}
+.send { align-self: flex-end; width: 42px; height: 42px; padding: 0; border-radius: 12px; font-size: 16px; flex: none; }
+#messages { min-height: 90px; }
 
 .drawer { position: absolute; inset: 0; background: rgba(0,0,0,.35); display: flex; justify-content: flex-end; }
 .drawer-inner { background: var(--panel); width: min(320px, 100%); height: 100%; overflow-y: auto; padding: 16px; }
